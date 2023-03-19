@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 import '../../models/poll.dart';
 import '../my_scaffold.dart';
@@ -21,7 +23,16 @@ class _HomePageState extends State<HomePage> {
   }
 
   _loadData() async {
-    // todo: Load list of polls here
+    setState(() {
+      _isLoading = true;
+    });
+    final response = await http.get(Uri.parse('https://cpsu-test-api.herokuapp.com/api/polls'));
+    setState(() {
+      _isLoading = false;
+      _polls = (json.decode(response.body) as List)
+          .map((item) => Poll.fromJson(item))
+          .toList();
+    });
   }
 
   @override
@@ -29,7 +40,11 @@ class _HomePageState extends State<HomePage> {
     return MyScaffold(
       body: Column(
         children: [
-          Image.network('https://cpsu-test-api.herokuapp.com/images/election.jpg'),
+          Image.network(
+            'https://cpsu-test-api.herokuapp.com/images/election.jpg',
+            fit: BoxFit.cover,
+            height: 200,
+          ),
           Expanded(
             child: Stack(
               children: [
@@ -47,8 +62,10 @@ class _HomePageState extends State<HomePage> {
     return ListView.builder(
       itemCount: _polls!.length,
       itemBuilder: (BuildContext context, int index) {
-        // todo: Create your poll item by replacing this Container()
-        return Container();
+        return ListTile(
+          title: Text(_polls![index].question),
+          subtitle: Text(_polls![index].choices.join(', ')),
+        );
       },
     );
   }

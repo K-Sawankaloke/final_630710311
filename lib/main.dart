@@ -7,26 +7,25 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({Key? key}) : super(key: key);
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Final Exam 2/2565',
       theme: ThemeData(
-        primarySwatch: Palette.colorTheme,
+        primarySwatch: Colors.blue,
         textTheme: const TextTheme(
-          bodyLarge: TextStyle(fontSize: 18.0),
-          bodyMedium: TextStyle(fontSize: 16.0),
-          bodySmall: TextStyle(fontSize: 14.0),
-          //labelLarge: TextStyle(fontSize: 14.0),
+          bodyText1: TextStyle(fontSize: 18.0),
+          bodyText2: TextStyle(fontSize: 16.0),
+          subtitle1: TextStyle(fontSize: 14.0),
         ),
       ),
       home: const HomePage(),
     );
   }
 }
+
 
 class Palette {
   static const MaterialColor colorTheme = MaterialColor(
